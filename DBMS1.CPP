@@ -8,6 +8,7 @@
 			 char a;
 		};
 int main(void){
+start:
 clrscr();
 data s;
 FILE *ptr;
@@ -18,9 +19,8 @@ int choice;
 ptr = fopen("emp.DAt","rb+");
 if(ptr==NULL){
 	ptr = fopen("emp.DAT","wb+");
-	printf("can't open file");
-	getch();
-	exit(1);
+	fclose(ptr);
+	goto start;
 }
 do{
 printf("\n1.insert\n2.read\n3.modify\n4.search\n5.delete\n6.exit\nenter your choice: ");
@@ -46,11 +46,17 @@ select='y';
 }
 else if(choice == 2){
 	rewind(ptr);
+	int count =0;
 	while(fread(&s,size,1,ptr)){
 	printf("name: %s\n",s.name);
 	printf("roll: %d\n",s.roll);
 	printf("attendence: %c\n",s.a);
 	printf("\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\n");
+	count++;
+	}
+	if(count ==0){
+	printf("\nthere is no data to read\n");
+	printf("\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\xDB\n");
 	}
 }
 else if(choice==3){
@@ -79,6 +85,7 @@ else if(choice==3){
 }
 else if(choice == 4){
 	printf("ENTER NAME TO SEARCH STUDENT NAME: ");
+	int count =0;
 	flushall();
 	gets(temp);
 	rewind(ptr);
@@ -87,8 +94,12 @@ else if(choice == 4){
 			printf("\nname is: %s",s.name);
 			printf("\nroll number is: %d",s.roll);
 			printf("\nattendance is: %c",s.a);
+			count++;
 		}
 
+	}
+	if(count == 0){
+	printf("data not found");
 	}
 
 }
